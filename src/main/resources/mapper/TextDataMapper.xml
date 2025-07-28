@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.spring.infrastructure.mybatis.mapper.TextDataMapper">
+    <insert id="insert">
+        insert into text_data (id, text_content) values(
+          #{textData.id},
+          #{textData.textContent}
+        )
+    </insert>
+    
+    <update id="update">
+        update text_data
+        set text_content = #{textData.textContent}
+        where id = #{textData.id}
+    </update>
+    
+    <select id="findById" resultMap="textData">
+        select id, text_content from text_data where id = #{id}
+    </select>
+    
+    <select id="findAll" resultMap="textData">
+        select id, text_content from text_data order by id desc
+    </select>
+    
+    <delete id="deleteById">
+        delete from text_data where id = #{id}
+    </delete>
+
+    <resultMap id="textData" type="io.spring.core.textdata.TextData">
+        <id column="id" property="id"/>
+        <result column="text_content" property="textContent"/>
+    </resultMap>
+</mapper>
