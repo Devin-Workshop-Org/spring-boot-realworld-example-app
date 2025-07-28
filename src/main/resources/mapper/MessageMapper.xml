@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="io.spring.infrastructure.mybatis.mapper.MessageMapper">
+    <insert id="insert">
+        insert into messages (id, content, created_at) values(
+          #{message.id},
+          #{message.content},
+          #{message.createdAt, typeHandler=io.spring.infrastructure.mybatis.DateTimeHandler}
+        )
+    </insert>
+    <select id="findAll" resultMap="message">
+        select id, content, created_at from messages order by created_at desc
+    </select>
+
+    <resultMap id="message" type="io.spring.core.message.Message" >
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="created_at" property="createdAt" typeHandler="io.spring.infrastructure.mybatis.DateTimeHandler"/>
+    </resultMap>
+</mapper>
