@@ -39,11 +39,12 @@ public class MessagesApi {
     messageRepository.save(message);
 
     Map<String, Object> response = new HashMap<>();
-    response.put("message", Map.of(
-        "id", message.getId(),
-        "content", message.getContent(),
-        "createdAt", message.getCreatedAt().toString()
-    ));
+    response.put(
+        "message",
+        Map.of(
+            "id", message.getId(),
+            "content", message.getContent(),
+            "createdAt", message.getCreatedAt().toString()));
 
     return ResponseEntity.ok(response);
   }
