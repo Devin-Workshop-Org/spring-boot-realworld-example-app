@@ -1,7 +1,7 @@
 package io.spring.api;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import io.spring.core.textdata.TextData;
@@ -24,34 +24,30 @@ import org.springframework.web.bind.annotation.RestController;
 public class TextDataApi {
   private TextDataRepository textDataRepository;
 
-  @RequestMapping(path = "/textdata", method = POST)
-  public ResponseEntity createTextData(@Valid @RequestBody CreateTextDataParam param) {
+  @PostMapping("/textdata")
+  public ResponseEntity<Map<String, Object>> createTextData(@Valid @RequestBody CreateTextDataParam param) {
     TextData textData = new TextData(param.getTextContent());
     textDataRepository.save(textData);
     return ResponseEntity.status(201)
         .body(textDataResponse(textData));
   }
 
-  @RequestMapping(path = "/textdata", method = GET)
-  public ResponseEntity getAllTextData() {
+  @GetMapping("/textdata")
+  public ResponseEntity<Map<String, Object>> getAllTextData() {
     List<TextData> textDataList = textDataRepository.findAll();
     return ResponseEntity.ok(textDataListResponse(textDataList));
   }
 
   private Map<String, Object> textDataResponse(TextData textData) {
-    return new HashMap<String, Object>() {
-      {
-        put("textData", textData);
-      }
-    };
+    Map<String, Object> response = new HashMap<>();
+    response.put("textData", textData);
+    return response;
   }
 
   private Map<String, Object> textDataListResponse(List<TextData> textDataList) {
-    return new HashMap<String, Object>() {
-      {
-        put("textDataList", textDataList);
-      }
-    };
+    Map<String, Object> response = new HashMap<>();
+    response.put("textDataList", textDataList);
+    return response;
   }
 }
 
